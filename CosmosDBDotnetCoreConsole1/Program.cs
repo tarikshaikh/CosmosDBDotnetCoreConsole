@@ -30,11 +30,23 @@ namespace CosmosDBDotnetCoreConsole1
                 var productItem = new
                 {
                     id = Guid.NewGuid().ToString(),
-                    name = "Kiama classic surfboard",
+                    name = "Dumbells",
                     category = "Fitness"
                 };
 
                 await productContainer.UpsertItemAsync(productItem);
+
+                // Read existing item from container
+                var readItem = await productContainer.ReadItemAsync<Product>(
+                    id: "9ad96c6e-1946-4fbd-91f5-c3f82db99059",
+                    partitionKey: new PartitionKey("Fitness")
+                );
+
+                // Delete existing item from container
+                var deleteItem = await productContainer.DeleteItemAsync<Product>(
+                    id: "9ad96c6e-1946-4fbd-91f5-c3f82db99059",
+                    partitionKey: new PartitionKey("Fitness")
+                );
             }
             catch (Exception ex)
             {
